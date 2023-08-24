@@ -4,9 +4,24 @@ import './App.css'
 
 import ContainCards from './components/ContainCards.jsx'
 import Header from "./components/Header.jsx"
-import PaginationApp from './components/PaginationApp'
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import DetailCharacter from './components/DetailCharacter';
 
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#000000', // Personaliza el color primario
+    },
+    secondary: {
+      main: '#e7cd90', // Personaliza el color secundario
+    },
+    prueba:{
+      main: "#222"
+    }
+  },
+});
 function App() {
   const [characters, setCharacters] = useState("")
   const [inputSearch, setInputSearch] = useState("")
@@ -32,9 +47,21 @@ function App() {
 
   return (
     <>
-      <Header setInputSearch={setInputSearch} setCurrentPage={setCurrentPage}/>
-      <ContainCards characters={characters}/>
-      <PaginationApp setCurrentPage={setCurrentPage} currentPage={currentPage} />
+     <ThemeProvider theme={theme}>
+       <BrowserRouter>
+          <Header setInputSearch={setInputSearch} setCurrentPage={setCurrentPage}/>
+          <Routes>
+            <Route path='/' element={
+              <ContainCards 
+                characters={characters}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}/>
+              }
+            />
+          <Route path='/detailCharacter/:id' element={ <DetailCharacter />}/>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </>
   )
 }
