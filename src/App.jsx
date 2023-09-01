@@ -7,6 +7,7 @@ import Header from "./components/Header.jsx"
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DetailCharacter from './components/DetailCharacter';
+import useCharacter from './components/useCharacter';
 
 
 const theme = createTheme({
@@ -18,22 +19,18 @@ const theme = createTheme({
       main: '#e7cd90', // Personaliza el color secundario
     },
     prueba:{
-      main: "#222"
+      main: "#45806e"
     }
   },
 });
 function App() {
-  const [characters, setCharacters] = useState("")
+  
   const [inputSearch, setInputSearch] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-
+  const { getData, data } = useCharacter([])
+ 
   useEffect(() => {
-    fetch (`https://rickandmortyapi.com/api/character?page=${currentPage}&name=${inputSearch}`)
-    .then((response) => response.json())
-    .then(({results}) =>{
-       setCharacters(results)
-      
-      })
+      getData(`https://rickandmortyapi.com/api/character?page=${currentPage}&name=${inputSearch}`)
   },  [inputSearch, currentPage])
 
   //console.log(characters)
@@ -53,12 +50,12 @@ function App() {
           <Routes>
             <Route path='/' element={
               <ContainCards 
-                characters={characters}
+                characters={data}
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}/>
               }
             />
-          <Route path='/detailCharacter/:id' element={ <DetailCharacter />}/>
+            <Route path='/detailCharacter/:id' element={ <DetailCharacter />}/>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

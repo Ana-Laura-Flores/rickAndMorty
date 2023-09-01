@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Typography, CardMedia, CardContent, Card } from '@mui/material';
 import { Link } from "react-router-dom"
 
-export default function CardCharacter({name, status, species, gender, id, image}) {
+export default function CardCharacter({name, status, id, image}) {
   return (
     <Link to={`/detailCharacter/${id}`} style={{textDecoration: "none"}}>
       <Card 
